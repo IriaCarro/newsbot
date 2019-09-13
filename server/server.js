@@ -1,19 +1,19 @@
-const express = require('express');
-const app = express();
 require('dotenv').config();
-
+const mongoPool = require('../database/mongo-pool');
 const crawlerTM = require('./crawlers/themedizine');
+const crawlerAS = require('./crawlers/applesfera');
+const crawlerHS = require('./crawlers/highsnobiety');
 
-app.get('/scrapeTM', function(req, res){
-    let url = 'https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category';
-    crawlerTM.queue(url);
-    res.send('ok');
-})
+async function init() {
+    try {
+          await mongoPool.connect();
+          crawlerTM.queue('https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category');
+          // crawlerAS.queue('https://www.applesfera.com/');
+          // crawlerHS.queue('https://www.highsnobiety.com/');
+    } catch (e) {
+          console.error(e);
+          process.exit(1);
+    }
+}
 
-app.get('/hello', function (req, res) {
-    res.send('Hello World!');
-});
-
-app.listen('8000')
-console.log('Magic happens on port 8000');
-// module.exports = app;
+init();

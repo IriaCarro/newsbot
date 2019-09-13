@@ -1,6 +1,6 @@
 const Crawler = require("crawler");
-
-let bot = require('../bots/themedizineBot');
+const processArticles = require("../helper/articles");
+var parse = require('date-fns/parse')
 
 var crawlerTheMedizine = new Crawler({
     maxConnections : 10,
@@ -9,26 +9,22 @@ var crawlerTheMedizine = new Crawler({
             return error;
         }
         var $ = res.$;
-        printTitle($);
-        printTitleNews($);
+        // console.log($("title").text());
+        const articles = getArticles($);
+        processArticles(articles);
         done();
     }
 });
 
-function printTitle($) {
-    console.log($("title").text());
-}
-
-function printTitleNews($) {
-    $('.feed-item').each(function (index, newsItem) {
+function getArticles($) {
+    return $('.feed-item').map(function (index, newsItem) {
         let title = newsItem.childNodes[3].childNodes[1].children[3].children[0].children[0].data;
-        console.log(title);
         let url = newsItem.children[1].children[1].children[1].attribs.href;
-        console.log(url);
-        let date = newsItem.children[3].children[3].children[3].children[1].data;
-        console.log(date);
+        let datestring = newsItem.children[3].children[3].children[3].children[1].data.trim();
+        let date = parse(datestring, 'dd-MM-yyyy', new Date());
         
-        bot.telegram.sendMessage(process.env.NEWSCHAT, url)
+        // bot.telegram.sendMessage(process.env.NEWSCHAT, url)
+        return { title: title, date: date, url: url, type: 1, sent: false};
     });
 }
 
