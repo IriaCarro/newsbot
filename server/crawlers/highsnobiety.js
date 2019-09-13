@@ -19,10 +19,10 @@ var crawlerHighSnobiety = new Crawler({
 function getArticles($) {
     return $('article').map(function (index, newsItem) {
         const item = cheerio.load(newsItem);
-        const title = item('.teaser__title').text().replace('\t', '').replace('\n', '');
+        const title = item('.teaser__title').text().replace('\t', '').replace('\n', '').trim();
         const date = item('.teaser__meta--date').text();
         const url = item('.teaser__title')[0].attribs.href;
-        return new News(title, date, url, 0);
+        return { title: title, date: date, url: url, type: 0, sent: false};
     });
 }
 

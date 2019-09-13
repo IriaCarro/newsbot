@@ -22,7 +22,6 @@ function getArticles($) {
         let url = newsItem.children[1].children[1].children[1].attribs.href;
         let datestring = newsItem.children[3].children[3].children[3].children[1].data.trim();
         let date = parse(datestring, 'dd-MM-yyyy', new Date());
-        
         // bot.telegram.sendMessage(process.env.NEWSCHAT, url)
         return { title: title, date: date, url: url, type: 1, sent: false};
     });

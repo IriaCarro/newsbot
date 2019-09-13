@@ -8,8 +8,9 @@ async function init() {
     try {
           await mongoPool.connect();
           crawlerTM.queue('https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category');
-          // crawlerAS.queue('https://www.applesfera.com/');
-          // crawlerHS.queue('https://www.highsnobiety.com/');
+          crawlerAS.queue('https://www.applesfera.com/');
+          crawlerHS.queue('https://www.highsnobiety.com/');
+          process.exit(1);
     } catch (e) {
           console.error(e);
           process.exit(1);

@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const newsSchema = new Schema({
-    uuid: { type: String, unique: true },
-    title: { type: String, unique: true },
+    uuid: { type: String, unique: true, required: true  },
+    title: { type: String, unique: true, required: true  },
     date: { type: Date },
-    url: { type: String, required: true },
+    url: { type: String, unique: true, required: true },
     type: { type: Number, required: true },
     sent: { type: Boolean, required: true }
 });

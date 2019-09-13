@@ -19,7 +19,7 @@ function getArticles($) {
     return $('article h2').map(function (index, newsItem) {
         let title = newsItem.children[0].children[0].data;
         let url = newsItem.children[0].attribs.href;
-        return new News(title, undefined, url, 2);
+        return { title: title, date: undefined, url: url, type: 2, sent: false};
     });
 }
 
