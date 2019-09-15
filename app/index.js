@@ -8,11 +8,10 @@ const SendNews = require('./helper/sender');
 async function init() {
     try {
           await mongoPool.connect();
-      //     crawlerTM.queue('https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category');
-      //     crawlerAS.queue('https://www.applesfera.com/');
-      //     crawlerHS.queue('https://www.highsnobiety.com/');
-            SendNews();
-          process.exit(1);
+           // crawlerTM.queue('https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category');
+           // crawlerAS.queue('https://www.applesfera.com/');
+           // crawlerHS.queue('https://www.highsnobiety.com/');
+           SendNews();
     } catch (e) {
           console.error(e);
           process.exit(1);

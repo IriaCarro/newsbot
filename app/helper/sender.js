@@ -3,17 +3,27 @@ const bot = require('../bots/beeBot');
 
 function SendNews() {
     const articles = News.find({sent: false});
-    for (let i = 0; i < articles.length; i++) {
-        send(articles[i].url);
-        articles[i].sent = true;
-        articles[i].save();
-    }
+    News.find({sent: false}).stream()
+            .on('data', function(doc){
+                // handle doc
+                send(doc.url);
+                News.find(doc).update;
+                News.findOneAndUpdate({url: doc.url}, {$set:{sent: true}},function(err, doc){
+                    if(err){
+                        console.log("Something wrong when updating data!");
+                    }
+                });
+            })
+            .on('error', function(err){
+                // handle error
+            }
+    );
 }
 
 function send(url) {
     setTimeout(function() {
             bot.telegram.sendMessage(process.env.NEWSCHAT, url);
-        }, 200);
+        }, 2000);
 }
 
 module.exports = SendNews;
