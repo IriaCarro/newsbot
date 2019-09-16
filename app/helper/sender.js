@@ -6,13 +6,18 @@ function SendNews() {
     News.find({sent: false}).stream()
             .on('data', function(doc){
                 // handle doc
-                send(doc.url);
-                News.find(doc).update;
-                News.findOneAndUpdate({url: doc.url}, {$set:{sent: true}},function(err, doc){
-                    if(err){
-                        console.log("Something wrong when updating data!");
-                    }
-                });
+                try {
+                    send(doc.url);
+                    News.find(doc).update;
+                    News.findOneAndUpdate({url: doc.url}, {$set:{sent: true}},function(err, doc){
+                        if(err){
+                            console.log("Something wrong when updating data!");
+                        }
+                    });
+                }
+                catch(e) {
+                    console.error(e);
+                }
             })
             .on('error', function(err){
                 // handle error
