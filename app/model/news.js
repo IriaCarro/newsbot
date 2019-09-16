@@ -10,7 +10,8 @@ const newsSchema = new Schema({
     date: { type: Date },
     url: { type: String, unique: true, required: true },
     type: { type: Number, required: true },
-    sent: { type: Boolean, required: true }
+    sent: { type: Boolean, required: true },
+    createddate: { type: Date, required: true }
 });
 
 const News = mongoose.model('News', newsSchema);
