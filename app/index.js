@@ -16,13 +16,13 @@ async function init() {
       try {
             await mongoPool.connect();
             cron.scheduleJob(ruleCrawler, function(){
-                  console.log('Crawler working');
+                console.log('Crawler working');
                 crawlerTM.queue('https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category');
                 crawlerAS.queue('https://www.applesfera.com/');
                 crawlerHS.queue('https://www.highsnobiety.com/');
             });
             cron.scheduleJob(ruleSender, function(){
-                  console.log('Sender working');
+                console.log('Sender working');
                 SendNews();
             });
       } catch (e) {
