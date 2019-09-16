@@ -10,9 +10,9 @@ const SendNews = require('./helper/sender');
 
 async function init() {
       var ruleCrawler = new cron.RecurrenceRule();
-      ruleCrawler.minute = 30;
+      ruleCrawler.minute = 10;
       var ruleSender = new cron.RecurrenceRule();
-      ruleSender.minute = 45;
+      ruleSender.minute = 20;
       try {
             await mongoPool.connect();
             cron.scheduleJob(ruleCrawler, function(){
