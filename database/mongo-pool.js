@@ -2,10 +2,10 @@
 
 const mongoose = require('mongoose');
 
-const mongoUri = process.env.MONGO_URI;
+const mongoUri = process.env.MONGO_URI; 
 
 async function connect() {
-      const connection = await mongoose.connect(mongoUri, { useNewUrlParser: true });
+      const connection = await mongoose.connect(mongoUri);
 
       return connection;
 }

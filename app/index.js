@@ -4,6 +4,7 @@ const mongoPool = require('../database/mongo-pool');
 const crawlerTM = require('./crawlers/themedizine');
 const crawlerAS = require('./crawlers/applesfera');
 const crawlerHS = require('./crawlers/highsnobiety');
+const crawler25 = require('./crawlers/25gramos');
 const SendNews = require('./helper/sender');
 
 
@@ -20,6 +21,8 @@ async function init() {
                 crawlerTM.queue('https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category');
                 crawlerAS.queue('https://www.applesfera.com/');
                 crawlerHS.queue('https://www.highsnobiety.com/');
+                crawler25.queue('https://www.25gramos.com/category/news/');
+                crawler25.queue('https://www.25gramos.com/category/lectura/');
             });
             cron.scheduleJob(ruleSender, function(){
                 console.log('Sender working');
