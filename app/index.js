@@ -9,6 +9,7 @@ const gramosgetarticles = require('./crawlers/25gramos');
 const vidaextragetarticles = require('./crawlers/vidaextra');
 const vicegetarticles = require('./crawlers/vice');
 const hypebeastgetarticles = require('./crawlers/hypebeast');
+const xatakagetarticles = require('./crawlers/xataka');
 const SendNews = require('./helper/sender');
 const processArticles = require("./helper/articles");
 
@@ -29,6 +30,7 @@ var crawler = new Crawler({
             case "vidaextra": articles = vidaextragetarticles($); break;
             case "vice": articles = vicegetarticles($); break;
             case "hypebeast": articles = hypebeastgetarticles($); break;
+            case "xataka": articles = xatakagetarticles($); break;
         }
         processArticles(articles);
         done();
@@ -52,6 +54,7 @@ async function initScheduler() {
                 crawler.queue({ uri: 'https://www.vidaextra.com/', type: 'vidaextra'});
                 crawler.queue({ uri: 'https://www.vice.com/es', type: 'vice'});
                 crawler.queue({ uri: 'https://hypebeast.com/', type: 'hypebeast'});
+                crawler.queue({ uri: 'https://www.xataka.com/', type: 'xataka'});
             });
             cron.scheduleJob(ruleSender, function(){
                 console.log('Sender working');
