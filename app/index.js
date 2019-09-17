@@ -5,6 +5,7 @@ const crawlerTM = require('./crawlers/themedizine');
 const crawlerAS = require('./crawlers/applesfera');
 const crawlerHS = require('./crawlers/highsnobiety');
 const crawler25 = require('./crawlers/25gramos');
+const crawlerVE = require('./crawlers/vidaextra');
 const SendNews = require('./helper/sender');
 
 
@@ -23,6 +24,7 @@ async function init() {
                 crawlerHS.queue('https://www.highsnobiety.com/');
                 crawler25.queue('https://www.25gramos.com/category/news/');
                 crawler25.queue('https://www.25gramos.com/category/lectura/');
+                crawlerVE.queue('https://www.vidaextra.com/');
             });
             cron.scheduleJob(ruleSender, function(){
                 console.log('Sender working');

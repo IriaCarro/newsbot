@@ -8,7 +8,6 @@ function SendNews() {
                 // handle doc
                 try {
                     send(doc.url);
-                    News.find(doc).update;
                     News.findOneAndUpdate({url: doc.url}, {$set:{sent: true}},function(err, doc){
                         if(err){
                             console.log("Something wrong when updating data!");
