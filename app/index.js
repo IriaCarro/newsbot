@@ -44,7 +44,7 @@ async function initScheduler() {
                 crawler.queue({ uri: 'https://www.applesfera.com/', type: 'applesfera' });
                 crawler.queue({ uri: 'https://www.highsnobiety.com/', type: 'highsnobiety'});
                 crawler.queue({ uri: 'https://www.25gramos.com/category/news/', type: '25gramos'});
-                // crawler.queue({ uri: 'https://www.25gramos.com/category/lectura/', type: '25gramos'});
+                crawler.queue({ uri: 'https://www.25gramos.com/category/lectura/', type: '25gramos'});
                 crawler.queue({ uri: 'https://www.vidaextra.com/', type: 'vidaextra'});
             });
             cron.scheduleJob(ruleSender, function(){
