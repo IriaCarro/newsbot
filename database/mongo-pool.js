@@ -2,6 +2,9 @@
 
 const mongoose = require('mongoose');
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+
 const mongoUri = process.env.MONGO_URI; 
 
 async function connect() {

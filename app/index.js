@@ -7,6 +7,7 @@ const applesferagetarticles = require('./crawlers/applesfera');
 const highsnobietygetarticles = require('./crawlers/highsnobiety');
 const gramosgetarticles = require('./crawlers/25gramos');
 const vidaextragetarticles = require('./crawlers/vidaextra');
+const vicegetarticles = require('./crawlers/vice');
 const SendNews = require('./helper/sender');
 const processArticles = require("./helper/articles");
 
@@ -25,6 +26,7 @@ var crawler = new Crawler({
             case "highsnobiety": articles = highsnobietygetarticles($); break;
             case "25gramos": articles = gramosgetarticles($); break;
             case "vidaextra": articles = vidaextragetarticles($); break;
+            case "vice": articles = vicegetarticles($); break;
         }
         processArticles(articles);
         done();
@@ -46,6 +48,7 @@ async function initScheduler() {
                 crawler.queue({ uri: 'https://www.25gramos.com/category/news/', type: '25gramos'});
                 crawler.queue({ uri: 'https://www.25gramos.com/category/lectura/', type: '25gramos'});
                 crawler.queue({ uri: 'https://www.vidaextra.com/', type: 'vidaextra'});
+                crawler.queue({ uri: 'https://www.vice.com/es', type: 'vice'});
             });
             cron.scheduleJob(ruleSender, function(){
                 console.log('Sender working');
