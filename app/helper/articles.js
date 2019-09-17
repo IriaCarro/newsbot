@@ -10,6 +10,8 @@ async function processArticles(articles) {
             await validateSchema(articles[i]);
             if (await News.findOne({ url: articles[i].url }))
                 continue;
+            if (await News.findOne({ title: articles[i].title }))
+                continue;
             const news = new News(articles[i]);
             news.uuid = uuidV4();
     

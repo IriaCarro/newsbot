@@ -1,16 +1,37 @@
 require('dotenv').config();
+const Crawler = require("crawler");
 const cron = require('node-schedule');
 const mongoPool = require('../database/mongo-pool');
-const crawlerTM = require('./crawlers/themedizine');
-const crawlerAS = require('./crawlers/applesfera');
-const crawlerHS = require('./crawlers/highsnobiety');
-const crawler25 = require('./crawlers/25gramos');
-const crawlerVE = require('./crawlers/vidaextra');
+const themedizinegetarticles = require('./crawlers/themedizine');
+const applesferagetarticles = require('./crawlers/applesfera');
+const highsnobietygetarticles = require('./crawlers/highsnobiety');
+const gramosgetarticles = require('./crawlers/25gramos');
+const vidaextragetarticles = require('./crawlers/vidaextra');
 const SendNews = require('./helper/sender');
+const processArticles = require("./helper/articles");
 
+var crawler = new Crawler({
+    maxConnections : 10,
+    callback : function (error, res, done) {
+        if(error){
+            return error;
+        }
+        const type = res.options.type;
+        var $ = res.$;
+        let articles = null;
+        switch(type) {
+            case "themedizine": articles = themedizinegetarticles($); break;
+            case "applesfera": articles = applesferagetarticles($); break;
+            case "highsnobiety": articles = highsnobietygetarticles($); break;
+            // case "25gramos": articles = gramosgetarticles($); break;
+            case "vidaextra": articles = vidaextragetarticles($); break;
+        }
+        processArticles(articles);
+        done();
+    }
+});
 
-
-async function init() {
+async function initScheduler() {
       var ruleCrawler = new cron.RecurrenceRule();
       ruleCrawler.minute = process.env.CRAWLERMINUTE;
       var ruleSender = new cron.RecurrenceRule();
@@ -19,12 +40,12 @@ async function init() {
             await mongoPool.connect();
             cron.scheduleJob(ruleCrawler, function(){
                 console.log('Crawler working');
-                crawlerTM.queue('https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category');
-                crawlerAS.queue('https://www.applesfera.com/');
-                crawlerHS.queue('https://www.highsnobiety.com/');
-                crawler25.queue('https://www.25gramos.com/category/news/');
-                crawler25.queue('https://www.25gramos.com/category/lectura/');
-                crawlerVE.queue('https://www.vidaextra.com/');
+                crawler.queue({ uri: 'https://themedizine.com/categoria/musica/?utm_source=web&utm_medium=slider&utm_campaign=category', type: 'themedizine' });
+                crawler.queue({ uri: 'https://www.applesfera.com/', type: 'applesfera' });
+                crawler.queue({ uri: 'https://www.highsnobiety.com/', type: 'highsnobiety'});
+                crawler.queue({ uri: 'https://www.25gramos.com/category/news/', type: '25gramos'});
+                // crawler.queue({ uri: 'https://www.25gramos.com/category/lectura/', type: '25gramos'});
+                crawler.queue({ uri: 'https://www.vidaextra.com/', type: 'vidaextra'});
             });
             cron.scheduleJob(ruleSender, function(){
                 console.log('Sender working');
@@ -36,4 +57,4 @@ async function init() {
       }
 }
 
-init();
+initScheduler();

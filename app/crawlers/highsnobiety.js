@@ -1,20 +1,4 @@
-const Crawler = require("crawler");
 const cheerio = require('cheerio');
-const News = require('../model/news');
-const processArticles = require("../helper/articles");
-
-var crawlerHighSnobiety = new Crawler({
-    maxConnections : 10,
-    callback : function (error, res, done) {
-        if(error){
-            return error;
-        }
-        var $ = res.$;
-        const articles = getArticles($);
-        processArticles(articles);
-        done();
-    }
-});
 
 function getArticles($) {
     return $('article').map(function (index, newsItem) {
@@ -26,4 +10,4 @@ function getArticles($) {
     });
 }
 
-module.exports = crawlerHighSnobiety;
+module.exports = getArticles;

@@ -1,7 +1,7 @@
 const Telegraf = require('telegraf');
 const rateLimit = require('telegraf-ratelimit');
 const token = process.env.BEEEEEEBOTTOKEN;
-// Set limit to 1 message per 3 seconds
+
 const limitConfig = {
     window: 1000,
     limit: 5,

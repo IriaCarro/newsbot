@@ -1,21 +1,3 @@
-const Crawler = require("crawler");
-const cheerio = require('cheerio');
-const News = require('../model/news');
-const processArticles = require("../helper/articles");
-
-var crawlerVidaExtra = new Crawler({
-    maxConnections : 10,
-    callback : function (error, res, done) {
-        if(error){
-            return error;
-        }
-        var $ = res.$;
-        const articles = getArticles($);
-        processArticles(articles);
-        done();
-    }
-});
-
 function getArticles($) {
     return $('article .abstract-title').map(function (index, newsItem) {
         let title = newsItem.children[0].children[0].data;
@@ -24,4 +6,4 @@ function getArticles($) {
     });
 }
 
-module.exports = crawlerVidaExtra;
+module.exports = getArticles;
