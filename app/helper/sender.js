@@ -2,13 +2,11 @@ const News = require('../model/news');
 const bot = require('../bots/beeBot');
 
 function SendNews() {
-    const articles = News.find({sent: false});
     News.find({sent: false}).stream()
-            .on('data', function(doc){
-                // handle doc
+            .on('data', function(article){
                 try {
-                    send(doc.url);
-                    News.findOneAndUpdate({url: doc.url}, {$set:{sent: true}},function(err, doc){
+                    send(article.url);
+                    News.findOneAndUpdate({url: article.url}, {$set:{sent: true}},function(err, article){
                         if(err){
                             console.log("Something wrong when updating data!");
                         }
