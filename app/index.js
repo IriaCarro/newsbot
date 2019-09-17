@@ -23,7 +23,7 @@ var crawler = new Crawler({
             case "themedizine": articles = themedizinegetarticles($); break;
             case "applesfera": articles = applesferagetarticles($); break;
             case "highsnobiety": articles = highsnobietygetarticles($); break;
-            // case "25gramos": articles = gramosgetarticles($); break;
+            case "25gramos": articles = gramosgetarticles($); break;
             case "vidaextra": articles = vidaextragetarticles($); break;
         }
         processArticles(articles);
