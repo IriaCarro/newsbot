@@ -2,6 +2,12 @@ require('dotenv').config();
 const Crawler = require("crawler");
 const cron = require('node-schedule');
 const mongoPool = require('../database/mongo-pool');
+
+const initWebServer = require('./webserver/server');
+
+const SendNews = require('./helper/sender');
+const processArticles = require("./helper/articles");
+
 const themedizinegetarticles = require('./crawlers/themedizine');
 const applesferagetarticles = require('./crawlers/applesfera');
 const highsnobietygetarticles = require('./crawlers/highsnobiety');
@@ -11,8 +17,6 @@ const vicegetarticles = require('./crawlers/vice');
 const hypebeastgetarticles = require('./crawlers/hypebeast');
 const xatakagetarticles = require('./crawlers/xataka');
 const genbetagetarticles = require('./crawlers/genbeta');
-const SendNews = require('./helper/sender');
-const processArticles = require("./helper/articles");
 
 var crawler = new Crawler({
     maxConnections : 10,
@@ -69,3 +73,4 @@ async function initScheduler() {
 }
 
 initScheduler();
+initWebServer();
